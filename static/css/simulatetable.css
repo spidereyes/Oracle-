@@ -1,0 +1,125 @@
+.simulate_table {
+    font-size: 18px;
+    position: relative;
+    left: calc(50% - 360px);
+    width: 720px;
+    height: 523px;
+    padding: 10px 5px 10px 5px;
+    border: 1px solid black;
+    background: aliceblue;
+    z-index: -1;
+    float: left;
+    margin-top: 60px;
+        animation: fadeIn 1.5s;
+    -webkit-animation: fadeIn 1.5s;
+}
+
+.simulate_table h1 {
+    margin-top: 8px;
+    top: 70px;
+    left: 20px;
+    float: left;
+    text-align: center;
+    position: relative;
+}
+
+.simulate_table h1 input {
+    position: relative;
+    width: 80px;
+    height: 35px;
+    background: rgba(66, 139, 202, 0.8);
+    color: white;
+    border-radius: 5%;
+    cursor: pointer;
+    font-size: 17px;
+    border: 1px solid rgba(122, 203, 235, 0.8);
+}
+
+.simulate_table h1 input:hover {
+    background-color: rgb(53, 126, 189);
+    transition: 0.2s;
+}
+
+.simulate_box {
+    position: relative;
+    width: 360px;
+    float: left;
+    height: 35px;
+    background: white;
+    z-index: 0;
+}
+
+.simulate_box .simulate_label_box {
+    position: relative;
+    width: 110px;
+    float: left;
+    border: 1px solid black;
+    font-weight: bold;
+    height: calc(100% - 2px);
+    z-index: 1;
+}
+
+.simulate_box .simulate_input_box {
+    width: 247px;
+    position: relative;
+    float: left;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    height: calc(100% - 2px);
+    z-index: 1;
+}
+
+.simulate_label_box .simulate_label {
+    position: relative;
+    top: calc(50% - 10.28px);
+}
+
+.simulate_input_box .simulate_input {
+    border: none;
+    width: 99%;
+    position: relative;
+    height: calc(100% - 1px);
+    top: 0;
+    padding-bottom: 0px;
+    padding-left: 1px;
+    padding-right: 0;
+    padding-top: 0;
+}
+
+.simulate_input_box .simulate_input:focus {
+    border-bottom: 2px solid rgb(53, 126, 189);
+}
+
+.simulate_input_box .simulate_input:disabled {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+#pic_box {
+    position: relative;
+    height: 200px;
+    width: 150px;
+    left: calc(70% + 1px);
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid white;
+}
+
+#pic_box input[type="file"] {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor:pointer;
+    top: -63px;
+}
+
+#pic_box:hover {
+    box-shadow: 5px 0px 5px rgb(122, 203, 235);
+    border: 1px solid rgba(122, 203, 235, 0.8);
+    border-color: white;
+    cursor:pointer;
+    transition:0.3s;
+}

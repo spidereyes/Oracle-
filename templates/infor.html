@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ name }}--个人介绍</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/simulatetable.css') }}">
+    </head>
+    <body>
+        {% macro input_field(field, fieldname, num) %}
+            <div id="{{ fieldname }}_box" class="simulate_box">
+                {% if num == 0%}
+                    <div id="{{ fieldname }}_label_box" class="simulate_label_box">
+                {% elif num == 1 %}
+                    <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-left: 1px solid white;">
+                {% elif num % 2 == 0 %}
+                    <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-top: 1px solid white;">
+                {% else %}
+                    <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-left: 1px solid white; border-top: 1px solid white;">
+                {% endif %}
+                     {{ field.label(class="simulate_label") }}
+                 </div>
+                {% if num == 0 or num == 1%}
+                    <div id="{{ fieldname }}_input_box" class="simulate_input_box">
+                {% else %}
+                    <div id="{{ fieldname }}_input_box" class="simulate_input_box" style="border-top: 1px solid white;">
+                {% endif %}
+                    {% if toNone and num == 13 %}
+                        {{ field(value="") }}
+                    {% else %}
+                        {% if num == 0 %}
+                            {{ field(value=name, disabled="disabled") }}
+                        {% elif modify == 1 or proxy != "" %}
+                            {{ field() }}
+                        {% else %}
+                            {{ field(disabled="disabled") }}
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endmacro %}
+        <div id="slide_cover" style="display:none"></div>
+            <div id="all">
+                <div id="all_head">
+                    <img src="../static/img/index_logo.png" id="all_head_logo">
+                    <div id="all_head_choose">
+                        {% if identity == 'student' %}
+                            <a href="/index">首页</a>
+                            {% if proxy != '' %}
+                                <a href="/student/index?xh={{ name }}">该用户首页</a>
+                            {% endif %}
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/student/information?xh={{ name }}">基本信息</a>
+                            <a href="/student/course?xh={{ name }}">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+                        {% elif identity == 'admin' %}
+                            <a href="/index">首页</a>
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/admin/information?xh={{ name }}">基本信息</a>
+                            <a href="/all/course?xh={{ name }}">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+                            <a href="/admin/user">用户管理</a>
+                            <a href="/admin/system">系统管理</a>
+                        {% elif identity == 'teacher' %}
+                            <a href="/index">首页</a>
+                            {% if proxy != '' %}
+                                <a href="/teacher/index?xh={{ name }}">该用户首页</a>
+                            {% endif %}
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                            <a href="/teacher/course?xh={{ name }}">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+<!--                            <a href="/teacher/post">课程公告管理</a>-->
+                        {% endif %}
+                        <a href="/logout">退出登录</a>
+                        {% if proxy %}
+                            <font id="show_user">您好！{{ proxy }}，正在查看{{ name }}</font>
+                        {% else %}
+                            <font id="show_user">您好！{{ name }}</font>
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="slide_box" style="display:none">
+                    <div id="slide_head" style="display:none">
+                        <h2>修改密码</h2>
+                        <hr>
+                    </div>
+                    <div id="slide_body" style="display:none">
+                        <p id="msg"></p>
+                        <div id="slide_form">
+                            {% if proxy == "" %}
+                                <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                                <input id="slide_opwd" type="password" class="lockpwd">
+                            {% else %}
+                                <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                                <input id="slide_opwd" type="password" class="lockpwd">
+                            {% endif %}
+                            <br>
+                            <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_npwd" type="password" class="lockpwd">
+                            <br>
+                            <label for="slide_cpwd">确认密码：</label>
+                            <input id="slide_cpwd" type="password" class="lockpwd">
+                            <br>
+                            <hr>
+                            <input id="slide_submit" value="提交" type="button">
+                        </div>
+                        <input id="slide_close" value="X" type="button">
+                    </div>
+                </div>
+                <div id="all_body" style="height: 800px;">
+                    {% if proxy != "" %}
+                        <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ proxy }}管理员，以下为{{ realname }}的基本信息</h1>
+                    {% else %}
+                        <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ realname }}，以下为您的基本信息</h1>
+                    {% endif %}
+                    <p style="color: red;text-align: center;font-size: 22px;">{{ errormsg }}</p>
+                    {% if identity == "student" %}
+                        <form action="/student/information?xh={{ name }}" enctype="multipart/form-data" method="post">
+                    {% elif identity == "teacher" %}
+                        <form action="/teacher/information?xh={{ name }}" enctype="multipart/form-data" method="post">
+                    {% elif identity == "admin" %}
+                        <form action="/admin/information?xh={{ name }}" enctype="multipart/form-data" method="post">
+                    {% endif %}
+                        {% if modify == 1%}
+                            {{ form.csrf_token }}
+                        {% endif %}
+                        <div class="simulate_table">
+                            <h1>
+                                {% if modify == 0 and proxy == "" %}
+                                    {{ form.Submit(style="display:none") }}
+                                {% else %}
+                                    {{ form.Submit() }}
+                                {% endif %}
+                                基本信息
+                                {% if proxy == "" and identity != "admin" %}
+                                    <input id="modifysinfor" type="button" value="申请修改" style="margin-left: 30px">
+                                {% endif %}
+                            </h1>
+                            {% if first == 1 %}
+                                <div id="pic_box" style="background: url(/download/default/{{ avatar }}) no-repeat; background-size:150px 200px;">
+                            {% elif identity == "admin" %}
+                                <div id="pic_box" style="background: url(/download/admin/{{ avatar }}) no-repeat; background-size:150px 200px;">
+                            {% elif identity == "student" %}
+                                <div id="pic_box" style="background: url(/download/student/{{ avatar }}) no-repeat; background-size:150px 200px;">
+                            {% else %}
+                                <div id="pic_box" style="background: url(/download/teacher/{{ avatar }}) no-repeat; background-size:150px 200px;">
+                            {% endif %}
+                                {% if modify == 1 %}
+                                    {{ form.Avatar }}
+                                {% else %}
+                                    {{ form.Avatar(disabled="disabled") }}
+                                {% endif %}
+                            </div>
+                            {% if identity == "student" %}
+                                {{ input_field(form.Xh, all_fields[0], 0) }}
+                                {{ input_field(form.Xm, all_fields[1], 1) }}
+                                {{ input_field(form.Sex, all_fields[2], 2) }}
+                                {{ input_field(form.Mz, all_fields[3], 3) }}
+                                {{ input_field(form.Id, all_fields[4], 4) }}
+                                {{ input_field(form.Birthday, all_fields[5], 5) }}
+                                {{ input_field(form.Dept, all_fields[6], 6) }}
+                                {{ input_field(form.Major, all_fields[7], 7) }}
+                                {{ input_field(form.Class, all_fields[8], 8) }}
+                                {{ input_field(form.Phone, all_fields[9], 9) }}
+                                {{ input_field(form.Mail, all_fields[10], 10) }}
+                                {{ input_field(form.Type, all_fields[11], 11) }}
+                                {{ input_field(form.Comedate, all_fields[12], 12) }}
+                                {{ input_field(form.Years, all_fields[13], 13) }}
+                                {{ input_field(form.Address, all_fields[14], 14) }}
+                                {{ input_field(form.Domitory, all_fields[15], 15) }}
+                            {% else %}
+                                {{ input_field(form.Xh, all_fields[0], 0) }}
+                                {{ input_field(form.Xm, all_fields[1], 1) }}
+                                {{ input_field(form.Mz, all_fields[2], 2) }}
+                                {{ input_field(form.Sex, all_fields[3], 3) }}
+                                {{ input_field(form.Marry, all_fields[4], 4) }}
+                                {{ input_field(form.Society, all_fields[5], 5) }}
+                                {{ input_field(form.Id, all_fields[6], 6) }}
+                                {{ input_field(form.Major, all_fields[7], 7) }}
+                                {{ input_field(form.Dept, all_fields[8], 8) }}
+                                {{ input_field(form.Job, all_fields[9], 9) }}
+                                {{ input_field(form.Phone, all_fields[10], 10) }}
+                                {{ input_field(form.Mail, all_fields[11], 11) }}
+                                {{ input_field(form.Comedate, all_fields[12], 12) }}
+                                {{ input_field(form.Address, all_fields[13], 13) }}
+                            {% endif%}
+                        </div>
+                    </form>
+                </div>
+            </div>
+    </body>
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/others.js"></script>
+    <script type="text/javascript" src="../static/js/slide_modifypwd.js"></script>
+    <script type="text/javascript">
+            $("#pic_load").change(
+            function()
+            {
+                var objURL = getURL(this.files[0]);
+                if(objURL){
+                    $("#pic_box").css("background", "url(" + objURL + ")" + "no-repeat")
+                    $("#pic_box").css("background-size", "150px 200px");
+
+                }
+            })
+            function getURL(file)
+            {
+            var url = null;
+            if(window.createObjectURL != undefined)
+            { // basic
+                url = window.createObjectURL(file);
+            } else if(window.URL != undefined)
+            { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if(window.webkitURL != undefined)
+            { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+            }
+
+            $("#modifysinfor").click( function() {
+                $.ajax ({
+                    url: "/addrequest/infor",
+                    type: "post",
+                    data: { "xh": "{{ name }}" },
+                    success: function(response) {
+                        if(response=="success"){
+                            alert("已发送申请，请等待管理员审理或直接联系管理员");
+                            location.href = window.location.protocol + "//" + window.location.host + "/{{ identity }}/information?xh={{ name }}";
+                        }
+                        else if(response=="have") {
+                            alert("您已经拥有修改权限");
+                            location.href = window.location.protocol + "//" + window.location.host + "/{{ identity }}/information?xh={{ name }}";
+                        }
+                        else{
+                            alert("请求失败，请稍后重试");
+                        }
+                    }
+                })
+            })
+    </script>
+</html>

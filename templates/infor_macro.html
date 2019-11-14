@@ -1,0 +1,32 @@
+{% macro input_field(field, fieldname, num) %}
+    <div id="{{ fieldname }}_box" class="simulate_box">
+        {% if num == 0%}
+            <div id="{{ fieldname }}_label_box" class="simulate_label_box">
+        {% elif num == 1 %}
+            <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-left: 1px solid white;">
+        {% elif num % 2 == 0 %}
+            <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-top: 1px solid white;">
+        {% else %}
+            <div id="{{ fieldname }}_label_box" class="simulate_label_box" style="border-left: 1px solid white; border-top: 1px solid white;">
+        {% endif %}
+             {{ field.label(class="simulate_label") }}
+         </div>
+        {% if num == 0 or num == 1%}
+            <div id="{{ fieldname }}_input_box" class="simulate_input_box">
+        {% else %}
+            <div id="{{ fieldname }}_input_box" class="simulate_input_box" style="border-top: 1px solid white;">
+        {% endif %}
+            {% if toNone and num == 13 %}
+                {{ field(value="") }}
+            {% else %}
+                {% if num == 0 %}
+                    {{ field(value=name, disabled="disabled") }}
+                {% elif modify == 1 or proxy != "" %}
+                    {{ field() }}
+                {% else %}
+                    {{ field(disabled="disabled") }}
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endmacro %}

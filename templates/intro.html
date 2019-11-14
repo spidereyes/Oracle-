@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>学生管理系统——介绍</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/intro.css') }}">
+    </head>
+    <body>
+        <div id="all">
+            <div id="all_head">
+                <img src="{{ url_for('static', filename='img/index_logo.png') }}" id="all_head_logo">
+                <div id="all_head_choose">
+                    <a href="/">您好！{{ message }}</a> <!--变量-->
+                </div>
+            </div>
+            <div id="all_body">
+                <div id="intro_body_out">
+                    <div id="intro_body_in">
+                        <h1 id="intro_head">使用说明</h1>
+                        <hr>
+                        <div id="intro_box">
+                            <p>
+                                    &emsp;本站为学生管理系统，共分为三个角色：管理员，学生及任课教师，角色之间权限分明，各用户可访问路由处理得当。<br>
+                                <br>
+                                各角色拥有的权限如下：<br>
+                                &emsp;管理员权限最高，但各个管理员之间权限共等：<br>
+                                &emsp;&emsp;1、管理员可以随意更改及查看自己的信息。<br>
+                                &emsp;&emsp;2、管理员可以随意更改及查看各教师和学生的所有信息。<br>
+<!--                                &emsp;&emsp;3、管理员可以开放选课。<br>-->
+                                &emsp;&emsp;3、管理员不会被任何其他角色越权。<br>
+                                &emsp;&emsp;4、管理员可处理学生及教师的申请。<br>
+                                &emsp;&emsp;5、管理员可张贴系统公告。<br>
+                                &emsp;&emsp;6、管理员可随意删除添加修改用户。<br>
+                                &emsp;教师权限与学生共等，互相不可查看信息：<br>
+                                &emsp;&emsp;1、教师可查看自己的信息。<br>
+                                &emsp;&emsp;2、教师可经过申请后修改自己的信息。<br>
+                                &emsp;&emsp;3、教师可查看自己开设的课程。<br>
+                                &emsp;&emsp;4、教师可查看选自己课的所有学生及其基本信息，并予以学生成绩。<br>
+                                &emsp;&emsp;5、教师可开设新的课程。<br>
+<!--                                &emsp;&emsp;6、教师可张贴课程公告。<br>-->
+                                &emsp;学生权限与教师共等，互相不可查看信息：<br>
+                                &emsp;&emsp;1、学生可查看自己的信息。<br>
+                                &emsp;&emsp;2、学生可经过申请后修改自己的信息。<br>  
+                                &emsp;&emsp;3、学生选修课程表中开放的课程。<br>                                
+                                &emsp;&emsp;4、学生可修改信息但必须通过向管理员申请。<br>
+                                &emsp;&emsp;5、学生可查看自己的所选课程信息 <br>
+<!--                                &emsp;&emsp;5、学生可查看自己选修课程的教师少量信息及所获成绩。<br>-->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

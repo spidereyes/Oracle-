@@ -1,0 +1,197 @@
+.hold_height {
+    position: relative;
+    min-height: 700px;
+}
+
+.body_box {
+    position: relative;
+    min-width: 500px;
+    background: white;
+    margin-top: 30px;
+    border: 1px solid rgba(136,136,136, 0.3);
+    height: 500px;
+}
+
+.body_box .body_box_head {
+    position: relative;
+    height: auto;
+    width: 100%;
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+}
+.body_box .body_box_content {
+    position: relative;
+    height: calc(90% - 20px);
+    width: calc(100% - 20px);
+    padding: 0px 10px 10px 10px;
+}
+
+.body_box_content hr {
+    color: rgba(136,136,136, 0.3);
+    margin-top: 0px;
+}
+
+.body_box_content form {
+    position: relative;
+    height: 100%;
+}
+
+.body_box_content #new_head {
+    text-align: center;
+    margin: 0px;
+    font-size: 25px;
+    width: 220px;
+    left: calc(21% - 111px);
+    position: relative;
+    border: none;
+}
+
+.body_box .body_box_head h2 {
+    position: relative;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: rgb(66, 139, 202);
+}
+.body_box .body_box_head h1 {
+    position: relative;
+    margin: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color: rgb(66, 139, 202);
+}
+#left_permission {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: calc(50% - 47px);
+    float: left;
+}
+
+#right_post {
+    margin-right: 30px;
+    left: 0px;
+    float: right;
+    width: calc(50% - 47px);
+}
+
+textarea {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: calc(100% - 22px);
+    height: calc(95% - 60px);
+    padding: 10px;
+    font-size: 17px;
+    font-family: 微软雅黑;
+    line-height: 30px;
+    overflow-y: inherit;
+    overflow-x: hidden;
+    resize: none;
+    border: 1px solid white;
+}
+
+.body_button {
+    position: relative;
+    width: 50px;
+    height: 30px;
+    font-size: 15px;
+    background: rgba(66, 139, 202, 0.8);
+    color: white;
+    border-radius: 5%;
+    border: 1px solid rgba(122, 203, 235, 0.8);
+}
+
+.body_button:hover {
+    cursor: pointer;
+    background: rgba(66, 139, 202, 1);
+}
+
+#row_button {
+    left: 0px;
+    width: 38px;
+    padding: 0;
+    font-size: 14px;
+}
+#permission_button {
+    left: 0px;
+    width: 80px;
+    padding: 5px 10px 5px 10px;
+    height: 30px;
+}
+
+.input_box {
+    padding: 2px 5px 2px 5px;
+    border: 1px solid rgba(136,136,136, 0.8);
+}
+
+.input_box:focus {
+    border: 1px solid rgb(66, 139, 202);
+    box-shadow: 0.5px 0.5px 0.5px rgba(66, 139, 202, 1);
+}
+
+#post {
+    font-size: 18px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+}
+
+#post font {
+    margin-right: 55px;
+    margin-left: 10px;
+}
+
+#post_rows {
+    position: relative;
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+}
+
+#post_row {
+    height: 35px;
+    margin-top:5px;
+    margin-bottom: 5px;
+    border-bottom:1px solid rgba(136,136,136, 0.3);
+}
+
+#post_row #name {
+    width: 90px;
+    display: block;
+    float: left;
+    top: 4px;
+    position: relative;
+}
+
+#permission_apply {
+    margin-left: 30px;
+    margin-right: 30px;
+    width: calc(100% - 60px);
+    float: left;
+}
+#apply_table {
+    width: 100%;
+    position: relative;
+    height: auto;
+    line-height: 45px;
+    border-collapse: collapse;
+}
+#apply_table tr {
+    border: 1px solid rgba(136,136,136, 0.6);
+}
+
+#apply_table .row_keys {
+    font-size: 20px;
+    width: 20%;
+}
+
+#postmsg {
+    position: absolute;
+    color:red;
+    font-size: 16px;
+    width: 257px;
+    z-index: 1;
+    top: 5px;
+}

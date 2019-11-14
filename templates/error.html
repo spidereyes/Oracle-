@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ name }}--错误页面</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sorry.css') }}">
+    </head>
+    <body>
+        <div id="all">
+            <div id="all_head">
+                <img src="{{ url_for('static', filename='img/index_logo.png') }}" id="all_head_logo">
+                <div id="all_head_choose">
+                    <a href="/">返回首页</a>
+                    <a href="/introduction">查看介绍</a>
+                    <a href="/logout">退出登录</a>
+                    <font id="show_user">您好！{{ name }}</font>
+                </div>
+            </div>
+            <div id="all_body">
+                <div id="sorry_box">
+                    <img src="{{ url_for('static', filename='img/sorry.jpg') }}" id="sorry">
+                    <p id="sorry_msg">{{ msg }}</p>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/others.js') }}"></script>
+</html>

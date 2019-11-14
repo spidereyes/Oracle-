@@ -1,0 +1,28 @@
+#sorry_box {
+    position: relative;
+    width: 360px;
+    height: 450px;
+    left: calc(50% - 170px);
+    border: 1px dashed yellow;
+}
+
+#sorry_box #sorry {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    border-radius: 10%;
+}
+
+#sorry_box #sorry_msg {
+    position: relative;
+    color: white;
+    font-size: 31px;
+    font-family: YouYuan;
+    font-weight: bolder;
+    margin-bottom: 0;
+    text-align: center;
+    background-image: -moz-linear-gradient(top, white, black);
+    background-image: -webkit-linear-gradient(bottom,red,#fd8403,yellow);
+    padding-top: 5px;
+    border-radius:5px;
+}

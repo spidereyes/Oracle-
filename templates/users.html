@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ name }}--主页</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/usermanage.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+    </head>
+    <body>
+        <div id="slide_cover" style="display:none"></div>
+            <div id="all">
+                <div id="all_head">
+                    <img src="../static/img/index_logo.png" id="all_head_logo">
+                    <div id="all_head_choose">
+                        {% if identity == 'student' %}
+                            <a href="/index">首页</a>
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/student/information?xh={{ name }}">基本信息</a>
+                            <a href="/student/course?xh={{ name }}">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+                        {% elif identity == 'admin' %}
+                            <a href="/index">首页</a>
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/admin/information?xh={{ name }}">基本信息</a>
+                            <a href="/all/course">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+                            <a href="/admin/user?xh={{ name }}">用户管理</a>
+                            <a href="/admin/system">系统管理</a>
+                        {% elif identity == 'teacher' %}
+                            <a href="/index">首页</a>
+                            <a id="special" href="javascript:void(0)">修改密码</a>
+                            <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                            <a href="/teacher/course?xh={{ name }}">课程信息</a>
+                            <a href="/student/selectcourse">学生选课</a>
+<!--                            <a href="/teacher/post">课程公告管理</a>-->
+                        {% endif %}
+                        <a href="/logout">退出登录</a>
+                        {% if proxy %}
+                            <font id="show_user">您好！{{ proxy }}管理员，正在查看{{ name }}</font>
+                        {% else %}
+                            <font id="show_user">您好！{{ name }}</font>
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="slide_box" style="display:none">
+                    <div id="slide_head" style="display:none">
+                        <h2>修改密码</h2>
+                        <hr>
+                    </div>
+                    <div id="slide_body" style="display:none">
+                        <p id="msg"></p>
+                        <div id="slide_form">
+                            {% if proxy == "" %}
+                                <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                                <input id="slide_opwd" type="password" class="lockpwd">
+                            {% else %}
+                                <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                                <input id="slide_opwd" type="password" class="lockpwd">
+                            {% endif %}
+                            <br>
+                            <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_npwd" type="password" class="lockpwd">
+                            <br>
+                            <label for="slide_cpwd">确认密码：</label>
+                            <input id="slide_cpwd" type="password" class="lockpwd">
+                            <br>
+                            <hr>
+                            <input id="slide_submit" value="提交" type="button">
+                        </div>
+                        <input id="slide_close" value="X" type="button">
+                    </div>
+                </div>
+                <div id="all_body">
+                    <div id="add_user_box" class="user_box">
+                       <div class="head_box">
+                            <font class="head" id="add_head">添加用户</font>
+                       </div>
+                       <hr>
+                        <div id="head_row">
+                            <font style="border-left: 1px solid black">用户学号</font><font>用户密码</font><font>用户类型</font><font>予以权限</font><font>操作</font>
+                        </div>
+                        <div id="rows">
+                            <div class="row">
+                                <input class="xh" style="width: 130px;height: 17px;padding: 5px;" type="text" value=""/><input class="pwd" style="width: 130px;height: 17px;padding: 5px;" type="password" value="">
+                                <input class="type" id="choose1" style="margin-left: 5px;" type="radio" name="1" value="s" checked="checked"/>学生
+                                <input class="type" style="margin-left: 28px;" type="radio" name="1" value="t" />教师
+                                <input class="permission" style="margin-left: 14px;" type="checkbox" />修改基本信息
+                                <input type="button" class="row_button" onclick="deleterow(1)" value="删除该行" />
+                            </div>
+                        </div>
+                        <hr>
+                        <input class="row_button" id="submitall" type="submit" style="margin-left: 310px;" />
+                    </div>
+                    <div id="add_user_box" class="user_box">
+                        <div class="head_box">
+                            <font class="head">学生管理</font>
+                        </div>
+                        <hr>
+                        <div id="head_row" style="min-width: 574px">
+                            <font style="border-left: 1px solid black">用户学号</font><font>用户密码</font><font>权限管理</font><font>管理用户</font><font>操作</font>
+                        </div>
+                        <div id="rows">
+                            {% for student in students%}
+                                <div class="row">
+                                    <input class="xh{{ student.getxh() }}" style="width: 130px;height: 17px;padding: 5px;" type="text" value="{{ student.getxh() }}" disabled="disabled"/><input class="pwd{{ student.getxh() }}" style="width: 130px;height: 17px;padding: 5px;" type="password" value="{{ student.getpwd() }}">
+                                    {% if student.getpermission()==1 %}
+                                        <input class="check{{ student.getxh() }}" style="margin-left: 7px;" type="checkbox" checked="checked" />修改基本信息
+                                    {% else %}
+                                        <input class="check{{ student.getxh() }}" style="margin-left: 7px;" type="checkbox" />修改基本信息
+                                    {% endif %}
+                                    <a class="indexhref" href="/student/index?xh={{ student.getxh() }}">进入主页</a>
+                                    <input class="row_button" type="button" value="删除用户" style="margin-left: 0px;" onclick="delete_user('{{ student.getxh() }}')">
+                                    <input class="row_button" type="button" value="修&nbsp;&nbsp;&nbsp;&nbsp;改" style="margin-left: 15px;" onclick="modify_user('{{ student.getxh() }}')">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div id="add_user_box" class="user_box">
+                        <div class="head_box">
+                            <font class="head">教师管理</font>
+                        </div>
+                        <hr>
+                        <div id="head_row" style="min-width: 574px">
+                            <font style="border-left: 1px solid black">用户学号</font><font>用户密码</font><font>权限管理</font><font>管理用户</font><font>操作</font>
+                        </div>
+                        <div id="rows">
+                            {% for teacher in teachers %}
+                                <div class="row">
+                                    <input class="xh{{ teacher.getxh() }}" style="width: 130px;height: 17px;padding: 5px;" type="text" value="{{ teacher.getxh() }}" disabled="disabled"/><input class="pwd{{ teacher.getxh() }}" style="width: 130px;height: 17px;padding: 5px;" type="password" value="{{ teacher.getpwd() }}">
+                                    {% if teacher.getpermission()==1 %}
+                                        <input class="check{{ teacher.getxh() }}" style="margin-left: 7px;" type="checkbox" checked="checked" />修改基本信息
+                                    {% else %}
+                                        <input class="check{{ teacher.getxh() }}" style="margin-left: 7px;" type="checkbox" />修改基本信息
+                                    {% endif %}
+                                    <a class="indexhref" href="/teacher/index?xh={{ teacher.getxh() }}">进入主页</a>
+                                    <input class="row_button" type="button" value="删除用户" style="margin-left: 0;" onclick="delete_user('{{ teacher.getxh() }}')">
+                                    <input class="row_button" type="button" value="修&nbsp;&nbsp;&nbsp;&nbsp;改" style="margin-left: 15px;" onclick="modify_user('{{ teacher.getxh() }}')">
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <script type="text/javascript" src="../static/js/others.js"></script>
+        <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="../static/js/slide_modifypwd.js"></script>
+        <script>
+        var count = $(".row").length;
+        $("#add_head").click( function() {
+            count++;
+            var temp  = "<div class=\"row\">" +
+            "<input class=\"xh\" style=\"width: 130px;height: 17px;padding: 5px;\" type=\"text\" value=\"\"/>" +
+            "<input class=\"pwd\" style=\"width: 130px;height: 17px;padding: 5px;\" type=\"password\" value=\"\" />" +
+            " <input class=\"type\" id=\"choose" + count + "\" style=\"margin-left: 5px;\" type=\"radio\" name=\"" + count + "\" value=\"s\" checked=\"checked\"/>学生" +
+            " <input class=\"type\" style=\"margin-left: 28px;\" type=\"radio\" name=\"" + count + "\" value=\"t\"/>教师" +
+            " <input class=\"permission\" style=\"margin-left: 14px;\" type=\"checkbox\" />修改基本信息" +
+            " <input class=\"row_button\" type=\"button\" onclick=\"deleterow(" + count + ")\" value=\"删除该行\" />"
+                $("#rows").append(temp)
+        })
+        function deleterow(rownum) {
+            var str = "#choose" + rownum
+            $(str).parent().remove();
+            count--;
+            }
+        $("#submitall").click(function() {
+            var xhs = new Array()
+            var pwds = new Array()
+            var types = new Array()
+            var permissions = new Array()
+                $(".xh").each(function() {
+                    xhs.push($(this).val());
+                })
+                $(".pwd").each(function() {
+                    pwds.push($(this).val());
+                })
+                $(".permission").each(function() {
+                    if($(this).prop("checked"))
+                    permissions.push(1);
+                    else
+                    permissions.push(0);
+                })
+                $(".type").each(function() {
+                    if($(this).prop("checked"))
+                        types.push($(this).val());
+                })
+                $.ajax({
+                    url: "/admin/user",
+                    type: "post",
+                    data: { "xhs":xhs, "pwds":pwds, "types":types, "permissions":permissions },
+                    success: function(response) {
+                        alert(response);
+                        location.href = window.location.protocol + "//" + window.location.host + "/admin/user";
+                    }
+                })
+        })
+
+        function delete_user(xh) {
+            var a = confirm("删除是不可恢复的，您确认要删除吗？");
+            if(a)
+            {
+                var b = confirm("这将会删除该用户所有数据，您真的确定要删除吗？")
+                if(b)
+                {
+                    $.ajax ({
+                    url: "/admin/delete/user/" + xh,
+                    type: "post",
+                    data: { "xh": xh },
+                    success: function(response) {
+                        alert(response);
+                        location.href = window.location.protocol + "//" + window.location.host + "/admin/user";
+                    }
+                    })
+                }
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
+
+        function modify_user(xh) {
+            var a = confirm("您确认要修改吗");
+            if(a)
+            {
+                var pwd = $(".pwd" + xh).val();
+                if($(".check" + xh).prop("checked"))
+                    var checked = 1;
+                else
+                    var checked = 0;
+                $.ajax ({
+                    url: "/admin/modify/user/" + xh,
+                    type: "post",
+                    data: { "pwd": pwd, "checked": checked },
+                    success: function(response)
+                    {
+                        alert(response);
+                        location.href = window.location.protocol + "//" + window.location.host + "/admin/user";
+                    }
+                })
+            }
+            else
+                return false;
+        }
+        </script>
+    </body>
+</html>

@@ -1,0 +1,146 @@
+#right_edit #edit_head,
+#right_canlendar #calendar_head {
+    position: relative;
+    height: 10%;
+    width: 100%;
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+}
+#right_edit #edit_head h2,
+#right_canlendar #calendar_head h2 {
+    position: relative;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    color:rgb(66, 139, 202);
+}
+
+#right_edit #edit_box,
+#right_calendar #calendar_box {
+    position: relative;
+    height: 90%;
+    width: 100%;
+}
+
+#calendar_box #YandM {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+
+#calendar_box #next {
+    position: relative;
+    font-size: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    left: calc(100% - 60px);
+}
+
+#calendar_box #last {
+    position: relative;
+    font-size: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    left: -55px;
+}
+
+#calendar_box a:hover {
+    color: rgb(66, 139, 202);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#calendar_box .week {
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 22px;
+    width: calc(100% - 10px):
+}
+
+#calendar_box .week li {
+    list-style: none;
+    width: calc((100% - 129px)/7);
+    float: left;
+    padding-left: 17px;
+}
+
+#calendar_box .date {
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 186px;
+    width: calc(100% - 10px);
+}
+
+#calendar_box .date li {
+    list-style: none;
+    width: calc((100% - 129px)/7);
+    float: left;
+    margin-left: 17px;
+    margin-top: 15px;
+}
+
+#calendar_box .date li font:hover {
+    color: rgb(66, 139, 202);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+#calendar_box .date .today {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: crimson;
+    color: white;
+}
+
+#calendar_box .date .today:hover {
+    color: rgb(66, 139, 202);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+
+#edit_box #edit {
+    position: relative;
+    top:0;
+    left:0;
+    width: calc(100% - 22px);
+    height: calc(100% - 80px);
+    padding: 10px;
+    font-size: 17px;
+    font-family: 微软雅黑;
+    line-height: 30px;
+    overflow-y: inherit;
+    overflow-x: hidden;
+    resize: none;
+    border: 1px solid white;
+}
+
+#edit_box #edit_submit {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    border: 1px solid white;
+    background-color: rgb(66, 139, 202);
+    color: white;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4%;
+    left: calc(50% - 30px);
+}
+
+#posted {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: #888 !important;
+    color: white !important;
+}

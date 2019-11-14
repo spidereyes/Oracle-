@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>{{ name }}--主页</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/course.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+    </head>
+    <body>
+    <div id="slide_cover" style="display:none"></div>
+        <div id="all">
+            <div id="all_head">
+                <img src="../static/img/index_logo.png" id="all_head_logo">
+                <div id="all_head_choose">
+                    {% if identity == 'student' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/student/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/student/information?xh={{ name }}">基本信息</a>
+                        <a href="/student/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                    {% elif identity == 'admin' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/admin/information?xh={{ name }}">基本信息</a>
+                        <a href="/all/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                        <a href="/admin/user">用户管理</a>
+                        <a href="/admin/system">系统管理</a>
+                    {% elif identity == 'teacher' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/teacher/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                        <a href="/teacher/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+<!--                        <a href="/teacher/post">课程公告管理</a>-->
+                    {% endif %}
+                    <a href="/logout">退出登录</a>
+                    {% if proxy %}
+                        <font id="show_user">您好！{{ proxy }}管理员，正在查看{{ name }}</font>
+                    {% else %}
+                        <font id="show_user">您好！{{ name }}</font>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="slide_box" style="display:none">
+                <div id="slide_head" style="display:none">
+                    <h2>修改密码</h2>
+                    <hr>
+                </div>
+                <div id="slide_body" style="display:none">
+                    <p id="msg"></p>
+                    <div id="slide_form">
+                        {% if proxy == "" %}
+                            <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% else %}
+                            <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% endif %}
+                        <br>
+                        <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                        <input id="slide_npwd" type="password" class="lockpwd">
+                        <br>
+                        <label for="slide_cpwd">确认密码：</label>
+                        <input id="slide_cpwd" type="password" class="lockpwd">
+                        <br>
+                        <hr>
+                        <input id="slide_submit" value="提交" type="button">
+                    </div>
+                    <input id="slide_close" value="X" type="button">
+                </div>
+            </div>
+            <div id="all_body">
+                <div id="course_box">
+                    <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ realname }}，以下为所有选课</h1>
+                    <table id="course_content">
+                        <tr>
+                            <th>课程号</th>
+                            <th>课程名</th>
+                            <th>学时</th>
+                            <th>课程性质</th>
+                            <th>学分</th>
+                            <th>剩余课容量</th>
+                            <th>考核类型</th>
+                            <th>任课老师</th>
+                            {% if identity == "student" %}
+                                <th>操作</th>
+                            {% endif %}
+                        </tr>
+                            {% for selectcourse in selectcourses %}
+                                {% if selectcourse[8] == 1 %}
+                                    <tr id="{{ selectcourse[0] }}" class="selected">
+                                {% else %}
+                                    <tr id="{{ selectcourse[0] }}">
+                                {% endif %}
+                                    <td>{{ selectcourse[0] }}</td>
+                                    <td>{{ selectcourse[1] }}</td>
+                                    <td>{{ selectcourse[2] }}</td>
+                                    <td>{{ selectcourse[3] }}</td>
+                                    <td>{{ selectcourse[4] }}</td>
+                                    <td>{{ selectcourse[5] }}</td>
+                                    <td>{{ selectcourse[6] }}</td>
+                                    <td>{{ selectcourse[7] }}</td>
+                                        {% if identity == "student" %}
+                                            <td>
+                                                {% if selectcourse[8] == 0 %}
+                                                <input onclick="selectcourse('{{ name }}', '{{ selectcourse[0] }}')" type="button" value="选课">
+                                                {% else %}
+                                                <input onclick="withdrawcourse('{{ name }}', '{{ selectcourse[0] }}')" type="button" value="退选">
+                                                {% endif %}
+                                            </td>
+                                        {% endif %}
+                                </tr>
+                            {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </body>
+    <script type="text/javascript" src="../static/js/others.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/slide_modifypwd.js"></script>
+    <script>
+        function selectcourse(xh, kh) {
+            $.ajax({
+                url: "/student/selectcourse",
+                type: "post",
+                data: { "xh":xh, "kh":kh, "type":"add" },
+                success: function(response) {
+                    alert(response);
+                    location.href = window.location.protocol + "//" + window.location.host + "/student/selectcourse";
+                }
+            })
+        }
+        function withdrawcourse(xh, kh) {
+            $.ajax({
+                url: "/student/selectcourse",
+                type: "post",
+                data: { "xh":xh, "kh":kh, "type":"delete" },
+                success: function(response) {
+                    alert(response);
+                    location.href = window.location.protocol + "//" + window.location.host + "/student/selectcourse";
+                }
+                error:
+            })
+        }
+    </script>
+</html>

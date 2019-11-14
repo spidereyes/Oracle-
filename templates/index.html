@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{{ name }}--主页</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calendar.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+    </head>
+    <body>
+    <div id="slide_cover" style="display:none"></div>
+        <div id="all">
+            <div id="all_head">
+                <img src="../static/img/index_logo.png" id="all_head_logo">
+                <div id="all_head_choose">
+                    {% if identity == 'student' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/student/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/student/information?xh={{ name }}">基本信息</a>
+                        <a href="/student/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                    {% elif identity == 'admin' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/admin/information?xh={{ name }}">基本信息</a>
+                        <a href="/all/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                        <a href="/admin/user">用户管理</a>
+                        <a href="/admin/system">系统管理</a>
+                    {% elif identity == 'teacher' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/teacher/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                        <a href="/teacher/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+<!--                        <a href="/teacher/post">课程公告管理</a>-->
+                    {% endif %}
+                    <a href="/logout">退出登录</a>
+                    {% if proxy %}
+                        <font id="show_user">您好！{{ proxy }}管理员，正在查看{{ name }}</font>
+                    {% else %}
+                        <font id="show_user">您好！{{ name }}</font>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="slide_box" style="display:none">
+                <div id="slide_head" style="display:none">
+                    <h2>修改密码</h2>
+                    <hr>
+                </div>
+                <div id="slide_body" style="display:none">
+                    <p id="msg"></p>
+                    <div id="slide_form">
+                        {% if proxy == "" %}
+                            <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% else %}
+                            <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% endif %}
+                        <br>
+                        <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                        <input id="slide_npwd" type="password" class="lockpwd">
+                        <br>
+                        <label for="slide_cpwd">确认密码：</label>
+                        <input id="slide_cpwd" type="password" class="lockpwd">
+                        <br>
+                        <hr>
+                        <input id="slide_submit" value="提交" type="button">
+                    </div>
+                    <input id="slide_close" value="X" type="button">
+                </div>
+            </div>
+            <div id="all_body">
+                <div id="body_left">
+                    <div id="left_img_box">
+                        {% if first == 1 %}
+                            <img src="/download/default/default.jpg" id="left_img">
+                        {% elif identity == "student" %}
+                            <img src="/download/student/{{ basic_infor.getimage() }}" id="left_img">
+                        {% elif identity == "admin" %}
+                            <img src="/download/admin/{{ basic_infor.getimage() }}" id="left_img">
+                        {% else %}
+                            <img src="/download/teacher/{{ basic_infor.getimage() }}" id="left_img">
+                        {% endif %}
+                    </div>
+                    <div id="left_table_box">
+                        <table id="left_table">
+                            <tr>
+                                <td id="row_key">学号</td>
+                                <td id="row_value">{{ basic_infor.getxh() }}</td>
+                            </tr>
+                            <tr>
+                                <td id="row_key">姓名</td>
+                                <td id="row_value">{{ basic_infor.getxm() }}</td>
+                            </tr>
+                            <tr>
+                                <td id="row_key">性别</td>
+                                <td id="row_value">{{ basic_infor.getsex() }}</td>
+                            </tr>
+                            {% if identity == 'student' %}
+                                <tr>
+                                    <td id="row_key">学院</td>
+                                    <td id="row_value">{{ basic_infor.getdept() }}</td>
+                                </tr>
+                                <tr>
+                                    <td id="row_key">专业</td>
+                                    <td id="row_value">{{ basic_infor.getmajor() }}</td>
+                                </tr>
+                                <tr>
+                                    <td id="row_key">班级</td>
+                                    <td id="row_value">{{ basic_infor.getclass() }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td id="row_key">学院</td>
+                                    <td id="row_value">{{ basic_infor.getdept() }}</td>
+                                </tr>
+                                <tr>
+                                    <td id="row_key">专业</td>
+                                    <td id="row_value">{{ basic_infor.getmajor() }}</td>
+                                </tr>
+                                <tr>
+                                    <td id="row_key">职称</td>
+                                    <td id="row_value">{{ basic_infor.getjob() }}</td>
+                                </tr>
+                            {% endif %}
+                            {% if identity == 'student' %}
+                                <tr>
+                                    <td id="row_key">入学时间</td>
+                                    <td id="row_value">{{ basic_infor.getcomedate() }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td id="row_key">入职时间</td>
+                                    <td id="row_value">{{ basic_infor.getcomedate() }}</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </div>
+                    <div id="left_button_box">
+                        <form action="information" method="GET">
+                            <input value="查看详情" id="left_button" class="left_1">
+                        </form>
+                        {% if proxy == '' and identity != "admin" %}
+                            <form action="requestmodify" method="POST">
+                                <input value="申请修改" id="left_button" class="left_2">
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+                <div id="body_right">
+                    <div id="body_right_post">
+                        <div id="right_post_head">
+                            {% if identity != 'admin'%}
+                                <div id="admin" onclick="click_trans(this)">
+                                    <font>系统公告</font>
+                                </div>
+                                <div id="teacher" onclick="click_trans(this)">
+                                    <font>课程公告</font>
+                                </div>
+                            {% else %}
+                                <div id="admin" onclick="click_trans(this)">
+                                    <font>系统公告</font>
+                                </div>
+                            {% endif %}
+                            {% if identity != "admin" %}
+                            <a href="/student/get/post" id="more_infor">>>查看更多公告</a>
+                            {% endif %}
+                        </div>
+                        <table id="right_post_table">
+                            {% for i in dpform.getapost() %}
+                                <tr class="a">
+                                    <td>
+                                        [管理员：{{ i["xh"] }}] {{ i["head"] }}
+                                    </td>
+                                    <td id="post_date">
+                                        {{ i["time"] }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            {% if identity != "admin" %}
+                                {% for j in dpform.gettpost() %}
+                                    <tr class="t" style="display: none">
+                                        <td>
+                                            [课程号：{{ j["kh"] }}] {{ j["head"] }}
+                                        </td>
+                                        <td id="post_date">
+                                            {{ j["time"] }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% endif %}
+                        </table>
+                    </div>
+                    <div id="body_right_schedule">
+                        <div id="right_canlendar">
+                            <div id="calendar_head">
+                                <h2>日程表</h2>
+                            </div>
+                            <div id="calendar_box">
+                                <h3 id="YandM"></h3>
+                                <a id="next" href="javascript:void(0)">>下个月</a>
+                                <a id="last" href="javascript:void(0)">上个月<</a>
+                                <hr>
+                                <ul class="week">
+                                    <li style="color: red">日</li>
+                                    <li>一</li>
+                                    <li>二</li>
+                                    <li>三</li>
+                                    <li>四</li>
+                                    <li>五</li>
+                                    <li>六</li>
+                                </ul>
+                                <ul class="date">
+                                </ul>
+                            </div>
+                        </div>
+                        <div id="right_edit">
+                            <div id="edit_head">
+                                <h2>每日一记</h2>
+                            </div>
+                            <div id="edit_box">
+                                <input style="display: none" id="hidden_time">
+                                <textarea id="edit">{{ dpform.getdiary() }}</textarea>
+                                <hr style="margin-top:0px;">
+                                <input type="submit" value="保 存" id="edit_submit">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../static/js/others.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/calendar.js"></script>
+    <script type="text/javascript" src="../static/js/slide_modifypwd.js"></script>
+    <script type="text/javascript">
+        //点击公告菜单切换内容的js
+            function click_trans(obj) {
+                $(".active").removeAttr("class");
+                obj.setAttribute("class", "active");
+                if (obj.getAttribute("id") == "admin") {
+                    $(".t").css("display",  "none")
+                    $(".a").removeAttr("style")
+                }
+                else {
+                    $(".a").css("display",  "none")
+                    $(".t").removeAttr("style")
+                }
+            }
+            $(".left_1").click( function() {
+                    location.href = window.location.protocol + "//" + window.location.host + "/{{ identity }}/information?xh={{ name }}";
+            })
+            $(".left_2").click( function() {
+                $.ajax ({
+                    url: "/addrequest/infor",
+                    type: "post",
+                    data: { "xh": "{{ name }}" },
+                    success: function(response) {
+                        if(response=="success"){
+                            alert("已发送申请，请等待管理员审理或直接联系管理员");
+                            location.href = window.location.protocol + "//" + window.location.host + "/{{ identity }}/information?xh={{ name }}";
+                        }
+                        else if(response=="have") {
+                            alert("您已经拥有修改权限");
+                            loaction.href = window.location.protocol + "//" + window.location.host + "/{{ identity }}/information?xh={{ name }}";
+                        }
+                        else{
+                            alert("请求失败，请稍后重试");
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown){
+                        alert(XMLHttpRequest.status);
+                        alert(XMLHttpRequest.statusText);
+                        alert(XMLHttpRequest.responseText);
+                        alert(XMLHttpRequest.readyState);
+                        alert(errorThrown);
+                        alert(textStatus);
+                    }
+                })
+            })
+    </script>
+
+</html>

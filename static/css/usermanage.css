@@ -1,0 +1,84 @@
+#add_user_box {
+    left: calc(22% - 25px);
+    float: inherit;
+    width: calc(60% - 45px);
+    min-width: 684px;
+}
+
+#student_box
+{
+    background: #f2f3f7;
+    border: 1px dashed #888;
+    margin: 30px 10px 0px 0px;
+    min-width: 574px;
+}
+#teacher_box {
+    background: #f2f3f7;
+    border: 1px dashed #888;
+    min-width: 574px;
+}
+.user_box
+{
+    position: relative;
+    background: white;
+    padding: 10px;
+    float: left;
+    left: 0;
+    margin-top: 30px;
+    width: calc(100% - 20px);
+    height: auto;
+    border: 1px solid rgba(136,136,136, 0.3);
+}
+.head {
+    margin: 10px 0px 10px 0px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#add_head {
+    color: blue;
+}
+
+#add_head:hover {
+    color: black;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.head_box {
+    text-align: center
+}
+
+#head_row {
+    line-height: 50px;
+    min-width: 683px;
+}
+.row {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+.row_button {
+    height: 30px;
+    width: 70px;
+    background:rgba(66, 139, 202, 0.8);
+    color:white;
+    border-radius: 5%;
+    border: 1px solid rgba(122, 203, 235, 0.8);
+    margin-left: 40px;
+}
+.row .row_button:hover {
+    cursor: pointer;
+    background:rgba(66, 139, 202, 1);
+}
+#head_row font {
+    font-size: 18px;
+    padding-right: 40px;
+    border-right: 1px solid black;
+    padding-left: 30px;
+}
+
+.indexhref {
+color:rgba(66, 139, 202, 1);
+    text-decoration: none;
+    margin-left: 27px;
+}

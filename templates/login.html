@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>学生管理系统——登录</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        <div id="all-content">
+            <img src="../static/img/login.jpg" id="background">
+            <div id="main-box">
+                <div id="login-box">
+                    <div id="login-logo">
+                        <img style="left: calc(50% - 200px); position: relative; height: 70px; width: 400px;" src="../static/img/logo.png">
+                        <hr>
+                    </div>
+                    <div id="login-forms">
+                        <form style="width:500px" action="/" method="post">
+                            {{ form.csrf_token }}
+                            {% if error_msg %}
+                                <font id="msg">{{ error_msg }}</font>
+                            {% endif %}
+                            <div class="login-form">
+                                <label for="uname" class="form-label">用户名：</label>
+                                {{ form.username(class="text-input", id="uname") }}
+                                <a href="/introduction" class="login-intro">使用说明</a>
+                                {% if form.username.errors %}
+                                    <font style="margin-left: 20px; color:red;">{{ form.username.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-form">
+                                <label for="pword" class="form-label">密&emsp;码：</label>
+                                {{ form.password }}
+                                {% if form.password.errors %}
+                                    <font style="margin-left: 10px;color: red;">{{ form.password.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-form">
+                                <label for="captcha" class="form-label">验证码：</label>
+                                {{ form.captcha(style="width: 180px; padding-right:0px") }}
+                                <img class="captcha-box" src="../static/captcha/{{ picseed }}.jpg">
+                                {% if form.captcha.errors %}
+                                    <font style="margin-left: 20px;color: red;">{{ form.captcha.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-remember">
+                                {{ form.check }}
+                                <label for="remember-input">记住我</label>
+                            </div>
+                            <hr style="margin-left: -35px;">
+                            {{ form.submit(value="登  录") }}
+                            <a class="login-modifypwd" href="/modifypwd.action">修改密码</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+
+    </script>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>{{ name }}--主页</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/setting.css') }}">
+    </head>
+    <body>
+        <div id="slide_cover" style="display:none"></div>
+        <div id="all">
+            <div id="all_head">
+                <img src="{{ url_for('static', filename='img/index_logo.png') }}" id="all_head_logo">
+                <div id="all_head_choose">
+                    {% if identity == 'student' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/student/information?xh={{ name }}">基本信息</a>
+                        <a href="/student/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                    {% elif identity == 'admin' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/admin/information?xh={{ name }}">基本信息</a>
+                        <a href="/all/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                        <a href="/admin/user">用户管理</a>
+                        <a href="/admin/system">系统管理</a>
+                    {% elif identity == 'teacher' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                        <a href="/teacher/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                        <a href="/teacher/post">课程公告管理</a>
+                    {% endif %}
+                    <a href="/logout">退出登录</a>
+                    {% if proxy %}
+                        <font id="show_user">您好！{{ proxy }}管理员，正在查看{{ name }}</font>
+                    {% else %}
+                        <font id="show_user">您好！{{ name }}</font>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="slide_box" style="display:none">
+                <div id="slide_head" style="display:none">
+                    <h2>修改密码</h2>
+                    <hr>
+                </div>
+                <div id="slide_body" style="display:none">
+                    <p id="msg"></p>
+                    <div id="slide_form">
+                        {% if proxy == "" %}
+                            <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% else %}
+                            <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% endif %}
+                        <br>
+                        <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                        <input id="slide_npwd" type="password" class="lockpwd">
+                        <br>
+                        <label for="slide_cpwd">确认密码：</label>
+                        <input id="slide_cpwd" type="password" class="lockpwd">
+                        <br>
+                        <hr>
+                        <input id="slide_submit" value="提交" type="button">
+                    </div>
+                    <input id="slide_close" value="X" type="button">
+                </div>
+            </div>
+            <div id="all_body">
+                <div class="hold_height">
+                    <div class="body_box" id="left_permission">
+                        <div class="body_box_head">
+                            <h2>公告管理</h2>
+                        </div>
+                        <div class="body_box_content">
+                            <div id="post">
+                                <font>作者</font>
+                                <font>标题</font>
+                                <font>类型</font>
+                                <font>时间</font>
+                                <font style="margin-right: 10px">操作</font>
+                            </div>
+                            <div id="post_rows">
+                                {% for post in posts %}
+                                    <div id="post_row">
+                                        <font id="name">{{ post[0] }}</font>
+                                        <input class="input_box" id="head{{ post[0] }}{{ post[4] }}" type="text" value="{{ post[1] }}" style="width: 70px;margin-right: 24px;" disabled/>
+                                        <font style="margin-right: 30px;">{{ post[2] }}</font>
+                                        <input disabled class="input_box" id="date{{ post[0] }}{{ post[4] }}" type="text" value="{{ post[3] }}" style="width: 70px; margin-right: 15px;" />
+                                        {% if identity == "admin" %}
+                                            <input id="row_button" class="body_button" type="button" value="查看" onclick="get_content('{{ post[0] }}', '{{ post[4] }}')">
+                                        {% else %}
+                                            <input id="row_button" style="margin-left: 35px;"class="body_button" type="button" value="查看" onclick="get_content('{{ post[0] }}', '{{ post[4] }}')">
+                                        {% endif %}
+                                        {% if identity == "admin" %}
+                                            <input id="row_button" class="body_button" type="button" value="删除" onclick="delete_post('{{ post[0] }}', '{{ post[4] }}')">
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body_box" id="right_post">
+                        <div class="body_box_head">
+                            {% if identity == 'admin' %}
+                                <h2>添加及编辑公告</h2>
+                            {% else %}
+                                <h2>查看公告</h2>
+                            {% endif %}
+                        </div>
+                        <div class="body_box_content">
+                            {% if identity == 'admin' %}
+                            <form action="/admin/system" method="post">
+                                {{ postform.csrf_token }}
+                                {{ postform.Head }}
+                                <font id="postmsg">{{ postmsg }}</font>
+                                {{ postform.Postcontent }}
+                                <hr>
+                                {{ postform.Submit }}
+                                {{ postform.Date.label }}
+                                {{ postform.Date }}
+                                {{ postform.Xh.label }}
+                                {{ postform.Xh }}
+                            </form>
+                            {% else %}
+                                {{ postform.Head }}
+                                {{ postform.Postcontent }}
+                                <hr>
+                                {{ postform.Date.label }}
+                                {{ postform.Date }}
+                                {{ postform.Xh.label }}
+                                {{ postform.Xh }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% if identity == "admin" %}
+                        <div class="body_box" id="permission_apply">
+                            <div class="body_box_head" style="border-bottom:none">
+                                <h1>权限申请</h1>
+                            </div>
+                            <div class="body_box_content">
+                                <table id="apply_table">
+                                    <tr>
+                                        <td class="row_keys">用户学号</td>
+                                        <td class="row_keys">用户姓名</td>
+                                        <td class="row_keys">用户类别</td>
+                                        <td class="row_keys">申请内容</td>
+                                        <td class="row_keys">执行操作</td>
+                                    </tr>
+                                    {% for apply in applies %}
+                                        <tr>
+                                            <td id="{{ apply[0] }}">{{ apply[0] }}</td>
+                                            <td>{{ apply[2] }}</td>
+                                            <td>{{ apply[1] }}</td>
+                                            <td>修改个人信息</td>
+                                            <td>
+                                                <input id="permission_button" class="body_button" type="submit" value="允许申请" onclick="manage_apply('{{ apply[0] }}', 'agree')">
+                                                <input id="permission_button" class="body_button" type="submit" value="拒绝申请" onclick="manage_apply('{{ apply[0] }}', 'refuse')">
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/others.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/slide_modifypwd.js') }}"></script>
+    <script>
+        var holdheight = $("#left_permission").height()>$("#right_post").height()?$("#left_permission").height():$("#right_post").height() + $("#permission_apply").height() + 65
+        $(".hold_height").css("height", holdheight + "px");
+
+        function delete_post(name, time)
+        {
+            var b = confirm("删除是不可恢复的，您确定要这么做吗？")
+            if(b)
+            {
+                var date = $("#date" + name + time).val();
+                $.ajax({
+                    url: "/admin/delete/post",
+                    type: "post",
+                    data: {
+                            "xh": name,
+                            "time": date,
+                        },
+                    success: function(response) {
+                        alert(response);
+                        location.href = window.location.protocol + "//" + window.location.host + "/admin/system";
+                    }
+                })
+            }
+        }
+
+        function manage_apply(xh, type)
+        {
+            var b = confirm("您确定这样操作吗？")
+            if (b) {
+                $.ajax({
+                    url: "/managerequest/" + type + "/" + xh,
+                    type: "get",
+                    success: function(response) {
+                        alert(response);
+                        location.href = window.location.protocol + "//" + window.location.host + "/admin/system";
+                    }
+                })
+            }
+        }
+
+        function get_content(name, time)
+        {
+             var date = $("#date" + name + time).val();
+             var head = $("#head" + name + time).val();
+             {% if identity == "admin" %}
+                string = "/admin/get/post"
+             {% else %}
+                string = "/student/get/post"
+             {% endif %}
+             $.ajax({
+                 url: string,
+                 method: "post",
+                 data: {
+                    "xh": name, 
+                    "time": date,
+                 },
+                 dataType: "json",
+                 success: function(response) {
+                    if(response["msg"] == "success")
+                    {
+                        alert("获取成功！请在编辑框修改该公告");
+                        $("textarea").val(response["content"]);
+                        $("#date").val(response["date"]);
+                        $("#postfrom").val(name);
+                        $("#new_head").val(head);
+                    }
+                    else
+                        alert("查询相关内容失败");
+                 }
+             })
+        }
+    </script>
+</html>

@@ -1,0 +1,223 @@
+#all_body #body_left {
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 350px;
+    height: 670px;
+    background: white;
+    margin-right: 10px;
+    padding: 10px;
+    float: left;
+    border: 1px solid rgba(136,136,136, 0.3);
+}
+#body_left #left_img_box {
+    position: relative;
+    width: 150px;
+    height: 200px;
+    left: 100px;
+    border-radius: 1%;
+    background-color: #f2f3f7;
+    box-shadow: 1px 1px 1px #888;
+}
+#body_left #left_img {
+    position: relative;
+    width: calc(100% - 6px);
+    height: calc(100% - 8px);
+    margin: 4px 3px 4px 3px;
+}
+
+#body_left #left_table_box {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: calc(100% - 2px);
+    height: auto;
+    border-top: 1px solid rgba(136,136,136, 0.3);
+    border-left: 1px solid rgba(136,136,136, 0.3);
+    border-right: 1px solid rgba(136,136,136, 0.3);
+    border-radius: 2%;
+}
+
+#left_table_box #left_table {
+    border-collapse:collapse;
+    line-height: 1.5;
+    display: table;
+    position: relative;
+    width: 100%;
+    font-size: 17px;
+    font-family: "microsoft yahei";
+    background: rgba(242,243,247, 0.8);
+}
+
+#left_table tr {
+    position: relative;
+    width: 100%;
+    text-align: center;
+    height: 35px;
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+}
+
+#left_table tr #row_key {
+    border-right: 1px solid rgba(136,136,136, 0.3);
+}
+
+#left_table tr #row_key:hover {
+    background-color: rgba(161, 155, 155, 0.8);
+    color: white;
+    transition: 0.3s;
+}
+
+#left_table tr #row_value {
+    padding-left: 20px;
+    background-color: rgba(255,255,255,0.4);
+    text-align: left;
+}
+
+#left_table tr #row_value:hover {
+    background-color: rgba(136,136,136, 0.1);
+    transition: 0.3s;
+}
+
+#left_button_box {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#left_button_box #left_button {
+    position: relative;
+    left: 125px;
+    width: 80px;
+    height: 40px;
+    border: 1px solid white;
+    background-color: rgb(66, 139, 202);
+    color: white;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4%;
+}
+
+#left_button_box #left_button:hover {
+    background-color: rgb(53, 126, 189);
+    transition: 0.2s;
+}
+
+#all_body #body_right {
+    position: relative;
+    width: calc(100% - 391px);
+    height: 690px;
+    left: 391px;
+}
+
+#body_right #body_right_post {
+    position: relative;
+    width: 100%;
+    height: 360px;
+    background: white;
+    margin-bottom: 10px;
+    border: 1px solid rgba(136,136,136, 0.3);
+}
+
+#body_right_post #right_post_head {
+    position: relative;
+    height: 50px;
+    top: 0;
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+}
+#right_post_head div {
+    position: relative;
+    width: 100px;
+    height: 40px;
+    border-right: 1px solid rgba(136,136,136, 0.3);
+    cursor: pointer;
+    float: left;
+    left: -381px;
+    text-align: center;
+    padding: 5px 0 5px 0;
+}
+#right_post_head font {
+    position: relative;
+    font-size: 20px;
+    top: 6.5px;
+}
+
+#right_post_head div:hover {
+    background-color: rgba(242,243,247, 0.8);
+    transition: 0.3s;
+}
+
+#right_post_head #more_infor {
+    position: relative;
+    font-size: 15px;
+    text-decoration: none;
+    left: -370px;
+    top: 16px;
+}
+
+#right_post_head #more_infor:hover {
+    color: black;
+    transition: 0.2s;
+}
+
+#body_right_post #right_post_table {
+    position: absolute;
+    height: auto;
+    width: 100%;
+    border-collapse:collapse;
+    display: table;
+}
+
+#right_post_table tr {
+    border-bottom: 1px solid rgba(136,136,136, 0.3);
+    height: 60px;
+}
+
+#right_post_table tr:hover {
+    color: white;
+    cursor: pointer;
+    background-color: rgba(53, 126, 189, 0.3);
+}
+
+#right_post_table td {
+    font-size: 18px;
+    padding-left: 20px;
+}
+
+#post_date {
+    text-align: right;
+    padding-right: 20px;
+}
+
+#body_right #body_right_schedule {
+    position: relative;
+    width: 100%;
+    height: calc(100% - 370px);
+    margin-bottom: 5px;
+}
+
+#body_right_schedule #right_canlendar {
+    position: relative;
+    width: 40%;
+    border: 1px solid rgba(136,136,136, 0.3);
+    left: -382px;
+    height: 100%;
+    background: white;
+    float: left;
+}
+
+#body_right_schedule #right_edit {
+    position: relative;
+    width: calc(60% - 7px);
+    height: 100%;
+    border: 1px solid rgba(136,136,136, 0.3);
+    background: white;
+    float: right;
+    top: -322px;
+}
+
+.active {
+    background-color: rgba(242,243,247, 0.8) !important;
+    border-bottom: 2px solid rgb(53, 126, 189) !important;
+}

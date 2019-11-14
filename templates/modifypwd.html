@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>学生管理系统——修改密码</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+    </head>
+    <body>
+        <div id="all-content">
+            <img src="{{ url_for('static', filename='img/login.jpg') }}" id="background">
+            <div id="main-box">
+                <div id="login-box">
+                    <div id="login-logo">
+                        <img style="left: calc(50% - 200px); position: relative; height: 70px; width: 400px;" src="../static/img/logo.png">
+                        <hr>
+                    </div>
+                    <div id="login-forms">
+                        <font id="msg">{{ msg }}</font>
+                        <form style="width:500px;" action="/modifypwd.action" method="post" onsubmit="return infor()">
+                            {{ form.csrf_token }}
+                            <div class="login-form">
+                                <label for="uname" class="form-label">用&nbsp;户&nbsp;名&nbsp;：</label>
+                                {{ form.username(style="width: 250px; padding-right: 10px;") }}
+                                <font style="margin-left: 10px; color:red">{{ right }}</font>
+                                {% if form.username.errors %}
+                                    <font style="margin-left: 10px; color:red">{{ form.username.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-form">
+                                <label for="pword" class="form-label" >旧&nbsp;密&nbsp;码&nbsp;：</label>
+                                {{ form.oldpassword(style="width: 250px; padding-right: 10px !important;") }}
+                                <font style="margin-left: 10px; color:red">{{ right }}</font>
+                                {% if form.oldpassword.errors %}
+                                    <font style="margin-left: 10px; color:red">{{ form.oldpassword.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-form">
+                                <label for="nword" class="form-label">新&nbsp;密&nbsp;码&nbsp;：</label>
+                                {{ form.newpassword(style="width: 250px; padding-right: 10px;") }}
+                                <font style="margin-left: 10px; color:red">{{ right }}</font>
+                                {% if form.newpassword.errors %}
+                                    <font style="margin-left: 10px; color:red">{{ form.newpassword.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <div class="login-form">
+                                <label for="confirmnword" class="form-label">确认密码：</label>
+                                {{ form.confirmpassword(style="width: 250px; padding-right: 10px;") }}
+                                <font style="margin-left: 10px; color:red">{{ right }}</font>
+                                {% if form.confirmpassword.errors %}
+                                    <font style="margin-left: 10px; color:red">{{ form.confirmpassword.errors[0] }}</font>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            {{ form.submit }}
+                            <a class="login-modifypwd" href="/">返回首页</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    {% if jsfile %}
+        <script type="text/javascript" src="{{ url_for('static', filename=jsfile)}}"></script>
+    {% endif %}
+    <script type="text/javascript">
+        function infor()
+        {
+            var a = confirm("您确认要修改吗？");
+            if(a)
+                return true;
+            else
+                return false;
+        }
+    </script>
+</html>

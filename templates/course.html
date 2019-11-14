@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="utf-8">
+        <title>{{ name }}--主页</title>
+        <link rel="icon" href="{{ url_for('static', filename='img/main.ico') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index_main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/course.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/slide_box.css') }}">
+    </head>
+    <body>
+    <div id="slide_cover" style="display:none"></div>
+        <div id="all">
+            <div id="all_head">
+                <img src="../static/img/index_logo.png" id="all_head_logo">
+                <div id="all_head_choose">
+                    {% if identity == 'student' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/student/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/student/information?xh={{ name }}">基本信息</a>
+                        <a href="/student/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                    {% elif identity == 'admin' %}
+                        <a href="/index">首页</a>
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/admin/information?xh={{ name }}">基本信息</a>
+                        <a href="/all/course">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+                        <a href="/admin/user">用户管理</a>
+                        <a href="/admin/system">系统管理</a>
+                    {% elif identity == 'teacher' %}
+                        <a href="/index">首页</a>
+                        {% if proxy != '' %}
+                            <a href="/teacher/index?xh={{ name }}">该用户首页</a>
+                        {% endif %}
+                        <a id="special" href="javascript:void(0)">修改密码</a>
+                        <a href="/teacher/information?xh={{ name }}">基本信息</a>
+                        <a href="/teacher/course?xh={{ name }}">课程信息</a>
+                        <a href="/student/selectcourse">学生选课</a>
+<!--                        <a href="/teacher/post">课程公告管理</a>-->
+                    {% endif %}
+                    <a href="/logout">退出登录</a>
+                    {% if proxy %}
+                        <font id="show_user">您好！{{ proxy }}管理员，正在查看{{ name }}</font>
+                    {% else %}
+                        <font id="show_user">您好！{{ name }}</font>
+                    {% endif %}
+                </div>
+            </div>
+            <div id="slide_box" style="display:none">
+                <div id="slide_head" style="display:none">
+                    <h2>修改密码</h2>
+                    <hr>
+                </div>
+                <div id="slide_body" style="display:none">
+                    <p id="msg"></p>
+                    <div id="slide_form">
+                        {% if proxy == "" %}
+                            <label id="opwd_label" for="slide_opwd">旧&nbsp;密&nbsp;码&nbsp;：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% else %}
+                            <label id="opwd_label" for="slide_opwd">您的密码：</label>
+                            <input id="slide_opwd" type="password" class="lockpwd">
+                        {% endif %}
+                        <br>
+                        <label for="slide_npwd">新&nbsp;密&nbsp;码&nbsp;：</label>
+                        <input id="slide_npwd" type="password" class="lockpwd">
+                        <br>
+                        <label for="slide_cpwd">确认密码：</label>
+                        <input id="slide_cpwd" type="password" class="lockpwd">
+                        <br>
+                        <hr>
+                        <input id="slide_submit" value="提交" type="button">
+                    </div>
+                    <input id="slide_close" value="X" type="button">
+                </div>
+            </div>
+            <div id="all_body">
+                <div id="course_box">
+                    <div id="course_head_box">
+                        {% if proxy != "" %}
+                            <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ proxy }}管理员，以下为{{ realname }}的课程信息</h1>
+                        {% else %}
+                            {% if identity == "admin" %}
+                                <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ realname }}，以下为所有课程信息</h1>
+                            {% else %}
+                                <h1 style="text-align: center;margin-bottom: 0px;color: cornflowerblue;">您好，{{ realname }}，以下为您的课程信息</h1>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <table id="course_content">
+                        {% if identity == "student" %}
+                            <tr>
+                                <th>课程号</th>
+                                <th>课程名</th>
+                                <th>学时</th>
+                                <th>课程性质</th>
+                                <th>学分</th>
+                                <th>课程总评</th>
+                                <th>考试性质</th>
+                                <th>考核类型</th>
+                                <th>及格标志</th>
+                                <th>考试时间</th>
+                            </tr>
+                            {% for course in courses %}
+                                <tr>
+                                    <td>{{ course[0] }}</td>
+                                    <td>{{ course[1] }}</td>
+                                    <td>{{ course[2] }}</td>
+                                    <td>{{ course[3] }}</td>
+                                    <td>{{ course[4] }}</td>
+                                    <td>{{ course[5] }}</td>
+                                    <td>{{ course[6] }}</td>
+                                    <td>{{ course[7] }}</td>
+                                    <td>{{ course[8] }}</td>
+                                    <td>{{ course[9] }}</td>
+                                </tr>
+                            {% endfor %}
+                        {% elif identity == "teacher" %}
+                            <tr>
+                                <th>课程号</th>
+                                <th>课程名</th>
+                                <th>学时</th>
+                                <th>课程性质</th>
+                                <th>学分</th>
+                                <th>考核类型</th>
+                                <th>课程容量</th>
+                                <th>学生管理</th>
+                            </tr>
+                            {% for course in courses %}
+                                <tr>
+                                    <td>{{ course[0] }}</td>
+                                    <td>{{ course[1] }}</td>
+                                    <td>{{ course[2] }}</td>
+                                    <td>{{ course[3] }}</td>
+                                    <td>{{ course[4] }}</td>
+                                    <td>{{ course[5] }}</td>
+                                    <td>{{ course[6] }}</td>
+                                    <td><input type="button" id="show_student" value="编辑信息" onclick="slide_modify('{{ course[0] }}')"/></td>
+                                </tr>
+                            {% endfor %}
+                        {% elif identity == "admin" %}
+                            <tr>
+                                <th>课程号</th>
+                                <th>课程名</th>
+                                <th>学分</th>
+                                <th>课程容量</th>
+                                <th>考核类型</th>
+                                <th>任课教师</th>
+                                <th>操作</th>
+                            </tr>
+                            {% for course in courses %}
+                                <tr>
+                                    <td>{{ course[0] }}</td>
+                                    <td>{{ course[1] }}</td>
+                                    <td>{{ course[2] }}</td>
+                                    <td>{{ course[3] }}</td>
+                                    <td>{{ course[4] }}</td>
+                                    <td>{{ course[5] }}</td>
+                                    <td><input type="button" onclick="delete_course('{{ course[0] }}')" value="删除此课"/></td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+                    </table>
+                    {% if identity == "teacher" and proxy == ""%}
+                        <input id="course_add_head" type="button" value="添加课程"/>
+                        <input id="line_add_head" type="button" value="添加一行"/>
+                            <table id="course_add">
+                                <tr>
+                                    <th>课程名</th>
+                                    <th>学时</th>
+                                    <th>课程性质</th>
+                                    <th>考核类型</th>
+                                    <th>课程容量</th>
+                                    <th>平时占比</th>
+                                    <th>操作</th>
+                                </tr>
+                                <tr id="0">
+                                    <td><input class="kname" type="text" value=""/></td>
+                                    <td><input class="khours" type="text" /></td>
+                                    <td><input class="knature" type="text" /></td>
+                                    <td><input class="ktestype" type="text" /></td>
+                                    <td><input class="kamount" type="text" /></td>
+                                    <td><input class="knormalqz" type="text" /></td>
+                                    <td><input id="deletline" type="button" value="删除此行" onclick="remove_line(0)"/></td>
+                                </tr>
+                            </table>
+                        <div id="slide_stuinfor" style="display: none">
+                            <input type="text" style="display:none" id="hidden_kh"/>
+                            <div id="input_div">
+                                期末考试时间：<input type="text" class="input_div_text" id="shijian" placeholder="以点分隔"/>
+                                平时成绩占比：<input type="text" class="input_div_text" id="quanzhong1" placeholder="填入0-1的一位小数"/>
+                                期末成绩占比：<input type="text" class="input_div_text" id="quanzhong2" placeholder="填入0-1的一位小数"/>
+                                <input type="button" id="close_stuinfor" value="关闭" />
+                            </div>
+                            <table id="stuinfor_content">
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript" src="../static/js/others.js"></script>
+    <script type="text/javascript" src="../static/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="../static/js/slide_modifypwd.js"></script>
+    <script>
+        {% if identity == "teacher" %}
+            var i = 1;
+            {% if proxy == "" %}
+                $("#line_add_head").click(function() {
+                    $("#course_add").append('<tr id="' + i + '">' +
+                                        '<td><input class="kname" type="text" value=""/ required></td>' +
+                                        '<td><input class="khours" type="text" required /></td>' +
+                                        '<td><input class="knature" type="text" required /></td>' +
+                                        '<td><input class="ktestype" type="text" required /></td>' +
+                                        '<td><input class="kamount" type="text" required /></td>' +
+                                        '<td><input class="knormalqz" type="text" /></td>' +
+                                        '<td><input id="deletline" type="button" value="删除此行" onclick="remove_line(' + i + ')"/></td>' +
+                                    '</tr>');
+                    i++;
+                })
+                function remove_line(i) {
+                    $("#" + i).remove();
+                    i--;
+                }
+                $("#course_add_head").click(function() {
+                    var knames = Array()
+                    var khours = Array()
+                    var knatures = Array()
+                    var ktestypes = Array()
+                    var kamounts = Array()
+                    var knormalqzs = Array()
+                    $(".kname").each(function() {
+                        knames.push($(this).val());
+                    })
+                    $(".khours").each(function() {
+                        khours.push($(this).val());
+                    })
+                    $(".knature").each(function() {
+                        knatures.push($(this).val());
+                    })
+                    $(".ktestype").each(function() {
+                        ktestypes.push($(this).val());
+                    })
+                    $(".kamount").each(function() {
+                        kamounts.push($(this).val());
+                    })
+                    $(".knormalqz").each(function() {
+                        knormalqzs.push($(this).val());
+                    })
+                    $.ajax({
+                        url: "/teacher/course/add?xh={{ name }}",
+                        type: "post",
+                        data: { "kname": knames, "khours":khours, "knatures":knatures, "ktestypes":ktestypes, "kamounts":kamounts, "knormalqzs":knormalqzs },
+                        success: function(response) {
+                        alert(response);
+                        if(response == "添加成功")
+                            location.href = window.location.protocol + "//" + window.location.host + "/teacher/course?xh={{ name }}";
+                        }
+                    })
+                })
+            {% endif %}
+            $("#close_stuinfor").click(function(){
+                 $("#slide_stuinfor").slideUp(800);
+            })
+            function slide_modify(kh) {
+                $("#hidden_kh").val(kh);
+                if($("#slide_stuinfor").css("display") != "none")
+                {
+                    $("#slide_stuinfor").slideUp(200);
+                }
+                $.ajax({
+                    url: "/teacher/course?xh={{ name }}",
+                    type: "post",
+                    data: { "kh": kh },
+                    dateType: "json",
+                    success: function(response) {
+                    if(response["msg"] == "success")
+                    {
+                    $("#stuinfor_content").empty();
+                    $("#stuinfor_content").append("<tr><th>学号</th><th>姓名</th><th>性别</th><th>专业</th><th>学院</th><th>平时成绩</th><th>期末成绩</th><th>总评</th><th>操作</th></tr>")
+                        for(var i = 0; i < response["xh"].length; i++)
+                        {
+                            $("#stuinfor_content").append("<tr>" +
+                                        "<td>" + response["xh"][i] + "</td>" +
+                                        "<td>" + response["xm"][i] + "</td>" +
+                                        "<td>" + response["sex"][i] + "</td>" +
+                                        "<td>" + response["major"][i] + "</td>" +
+                                        "<td>" + response["dept"][i] + "</td>" +
+                                        "<td><input type=\"text\" class=\"stuinfor_input\" id=\"norgrade" + i + "\" /></td>" +
+                                        "<td><input type=\"text\" class=\"stuinfor_input\" id=\"exagrade" + i + "\" /></td>" +
+                                        "<td><input type=\"text\" class=\"stuinfor_input\" id=\"fingrade" + i + "\" readonly/></td>" +
+                                        "<td><input id=\"show_student\" type=\"button\" value=\"提交\" onclick=\"submit_studentinfor(" + i + ",'" + response["xh"][i] + "')\"></td>" +
+                                    "</tr>");
+                            $("#norgrade" + i).val(response["normalgrade"][i])
+                            $("#exagrade" + i).val(response["examgrade"][i])
+                            $("#fingrade" + i).val(response["finalgrade"][i])
+                        }
+                        $("#shijian").val(response["courseinfor"][0])
+                        $("#quanzhong1").val(response["courseinfor"][1])
+                        $("#quanzhong2").val(response["courseinfor"][2])
+                        $("#slide_stuinfor").slideDown(800);
+                    }
+                    else
+                    {
+                        alert("出现错误，查询失败");
+                    }
+                    }
+                })
+            }
+            function submit_studentinfor(num, xh) {
+                var normalqz = $("#quanzhong1").val();
+                var examqz = $("#quanzhong2").val();
+                var examdate = $("#shijian").val();
+                var normalgrade = $("#norgrade" + num).val()
+                var examgrade = $("#exagrade" + num).val()
+                $.ajax ({
+                    url: "/teacher/modify/grade?xh={{ name }}",
+                    type: "post",
+                    data: {"normalqz":normalqz, "examqz":examqz, "examdate":examdate, "normalgrade":normalgrade, "examgrade":examgrade, "kh":Number($("#hidden_kh").val()), "xh": xh},
+                    success: function(response) {
+                        alert(response);
+                        if(response == "修改成功")
+                            location.href = window.location.protocol + "//" + window.location.host + "/teacher/course?xh={{ name }}";
+                    }
+                })
+            }
+        {% elif identity == "admin" %}
+        function delete_course(kh) {
+            $.ajax({
+                url: "/all/course",
+                type: "post",
+                data: { "kh": kh },
+                success: function(response) {
+                    alert(response);
+                    location.href = window.location.protocol + "//" + window.location.host + "/all/course";
+                }
+            })
+        }
+        {% endif %}
+    </script>
+</html>

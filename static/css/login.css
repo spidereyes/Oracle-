@@ -1,0 +1,175 @@
+body {
+    font-size: 17px;
+    font-family: 微软雅黑;
+    color: black;
+}
+#all-content {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left:0;
+    top:0;
+    overflow: hidden;
+}
+#all-content #background {
+    min-width: 1000px;
+    min-height: 500px;
+    position: absolute;
+    z-index: -999;
+    height: 110%;
+    width: 100%;
+}
+#all-content #main-box{
+    height: 460px;
+    width: 600px;
+    position: absolute;
+    background:rgba(255,255,255,0.6);
+    top: calc(50% - 230px);
+    left: calc(50% - 300px);
+    border-radius: 3%;
+    padding-top: 30px;
+}
+#main-box #login-box {
+    padding-left: 50px;
+    padding-right: 50px;
+    font-weight: bold;
+    line-height: 40px;
+    height: auto;
+    width: calc(100% - 100px);
+    position: relative;
+}
+#login-box #login-logo {
+    top:0;
+    left:0;
+    height:auto;
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+}
+#login-box hr {
+    position: relative;
+    border-radius: 20%;
+    color: rgba(255,255,255, 0.9);
+    width: 90%;
+}
+
+#login-box #login-forms {
+    margin-top: 50px;
+    padding-left: 70px;
+    padding-right: 30px;
+    height: 90px;
+}
+
+#login-forms .login-form {
+    position: relative;
+    width: 100%;
+    height: 50%;
+    margin-bottom: 10px;
+}
+
+#login-forms .login-form label {
+    cursor: pointer;
+}
+
+#login-forms .login-form .text-input {
+    position: relative;
+    height: 70%;
+    width: 280px;
+    font-size: 18px;
+    padding-left: 5px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 0px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+}
+
+#login-forms .login-form #pword {
+    padding-right: 0px !important;
+}
+
+#login-forms .login-form .text-input:focus {
+    box-shadow: 2px 2px 10px rgb(122, 203, 235);
+    border: 1px solid rgba(122, 203, 235, 0.8);
+    border-color: white;
+    transition: 0.2s;
+}
+
+#login-forms .login-form .text-input::-webkit-input-placeholder {
+    font-size:15px;
+    font-color: #888;
+}
+#login-forms .login-form .text-input::-moz-placeholder {
+    font-size:15px;
+    color: #888;
+}
+
+#login-forms .login-intro,
+#login-forms .login-modifypwd
+{
+    height: 31.5px;
+    text-decoration: none;
+    font-size: 17px;
+    position: relative;
+    margin-left: -85px;
+    color: crimson;
+    font-weight: 100;
+}
+#login-forms .login-form .login-intro:hover
+{
+    text-decoration: none;
+    font-size: 17px;
+    color: black;
+    transition: 0.2s;
+}
+
+#login-forms .login-form .captcha-box {
+    top: 9px;
+    position: relative;
+    height: 31.5px;
+    width: 80px;
+}
+#login-forms .login-remember 
+{
+    position: relative;
+    left: 17%;
+    font-size: 16px;
+}
+#login-forms .login-button {
+    position: relative;
+    left: calc(35% - 50px);
+    width:100px;
+    height:45px;
+    border: 1px solid rgba(66, 119,255, 0.6);
+    border-radius: 5%;
+    background-color: rgb(66, 139, 202);
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+#login-forms .login-button:hover {
+    background-color: rgb(53, 126, 189);
+    transition: 0.2s;
+}
+
+#login-forms  {
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.login-modifypwd {
+    left: calc(35% + 50px);
+    font-size: 15px !important;
+    text-decoration: underline !important;
+}
+
+#msg {
+    position: absolute;
+    top: 90px;
+    left: 150px;
+    color: red;
+    font-size: 16px;
+    font-weight: initial;
+}
